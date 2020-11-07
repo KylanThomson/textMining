@@ -826,7 +826,7 @@ class Stemmer
     }
 
     public static void combineStemmed(ArrayList<String> paragraph, ArrayList<String> stemmed, int num){
-        System.out.println("Paragraph " + num + ":");
+        System.out.print("Paragraph " + num + ": ");
         ArrayList<Integer> frequency = new ArrayList<Integer>();
 
         for(int i = 0; i < stemmed.size(); i++){
@@ -848,8 +848,9 @@ class Stemmer
             frequency.add(count);
         }
         for(int i = 0; i < stemmed.size(); i++){
-            System.out.println(paragraph.get(i));
-            System.out.println(frequency.get(i));
+            System.out.print(paragraph.get(i) + " (" + frequency.get(i) + ") ");
         }
+        System.out.println("");
+        System.out.println("");
     }
 }
