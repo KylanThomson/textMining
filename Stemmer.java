@@ -52,8 +52,7 @@
 */
 
 //import java.io.*;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -948,22 +947,28 @@ class Stemmer
         ArrayList<String> p14 = combineStemmed(paragraph_14, stemmed_14, 14);
         ArrayList<String> p15 = combineStemmed(paragraph_15, stemmed_15, 15);
         ArrayList<String> p16 = combineStemmed(paragraph_16, stemmed_16, 16);
-        featureVector(all, p1);
-        featureVector(all, p2);
-        featureVector(all, p3);
-        featureVector(all, p4);
-        featureVector(all, p5);
-        featureVector(all, p6);
-        featureVector(all, p7);
-        featureVector(all, p8);
-        featureVector(all, p9);
-        featureVector(all, p10);
-        featureVector(all, p11);
-        featureVector(all, p12);
-        featureVector(all, p13);
-        featureVector(all, p14);
-        featureVector(all, p15);
-        featureVector(all, p16);
+        ArrayList<String> kwSet = new ArrayList<String>();
+        kwSet.add("Keyword Set");
+        for (int i = 1; i < ((all.size() / 2) + 1); i++) {
+            kwSet.add(all.get(i-1));
+        }
+        writeCSV(kwSet);
+        writeCSV(featureVector(all, p1, "Paragraph 1"));
+        writeCSV(featureVector(all, p2, "Paragraph 2"));
+        writeCSV(featureVector(all, p3, "Paragraph 3"));
+        writeCSV(featureVector(all, p4, "Paragraph 4"));
+        writeCSV(featureVector(all, p5, "Paragraph 5"));
+        writeCSV(featureVector(all, p6, "Paragraph 6"));
+        writeCSV(featureVector(all, p7, "Paragraph 7"));
+        writeCSV(featureVector(all, p8, "Paragraph 8"));
+        writeCSV(featureVector(all, p9, "Paragraph 9"));
+        writeCSV(featureVector(all, p10, "Paragraph 10"));
+        writeCSV(featureVector(all, p11, "Paragraph 11"));
+        writeCSV(featureVector(all, p12, "Paragraph 12"));
+        writeCSV(featureVector(all, p13, "Paragraph 13"));
+        writeCSV(featureVector(all, p14, "Paragraph 14"));
+        writeCSV(featureVector(all, p15, "Paragraph 15"));
+        writeCSV(featureVector(all, p16, "Paragraph 16"));
     }
 
     public static ArrayList<String> combineStemmed(ArrayList<String> paragraph, ArrayList<String> stemmed, int num){
@@ -996,16 +1001,17 @@ class Stemmer
         return paragraph;
     }
 
-    public static ArrayList<String> featureVector(ArrayList<String> allText, ArrayList<String> p) {
+    public static ArrayList<String> featureVector(ArrayList<String> allText, ArrayList<String> p, String c1) {
         ArrayList<String> kSet = new ArrayList<String>();
         ArrayList<String> pSet = new ArrayList<String>();
         ArrayList<String> frequency = new ArrayList<String>();
         ArrayList<String> vector = new ArrayList<String>();
+        vector.add(c1);
 
         for (int i = 0; i < allText.size() / 2; i++) {
             kSet.add(allText.get(i));
         }
-        for( int i = 0; i < kSet.size(); i++){
+        for( int i = 1; i < kSet.size() + 1; i++){
             vector.add("0");
         }
         for (int i = 0; i < p.size() / 2; i++) {
@@ -1017,7 +1023,7 @@ class Stemmer
         for(int i = 0; i < pSet.size(); i++){
             for(int j = 0; j < kSet.size(); j++){
                 if(pSet.get(i).equals(kSet.get(j))) {
-                    vector.set(j, frequency.get(i));
+                    vector.set(j + 1, frequency.get(i));
                     break;
                 }
             }
@@ -1028,6 +1034,24 @@ class Stemmer
         System.out.println("");
         System.out.println("");
         return vector;
+    }
+    public static void writeCSV(ArrayList<String> row){
+        String filePath = "TDM.csv";
+        try{
+            FileWriter fw = new FileWriter(filePath, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+
+            for(int i = 0; i < row.size(); i++){
+                pw.print(row.get(i) + ", ");
+            }
+            pw.println("");
+            pw.flush();
+            pw.close();
+        }
+        catch(Exception e){
+            System.out.println("Failed to save file");
+        }
     }
 
 }
