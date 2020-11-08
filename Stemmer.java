@@ -418,6 +418,147 @@ class Stemmer
             temp = temp.replaceAll("[0-9]", "");
             temp = temp.replaceAll("]", "");
             //temp = temp.replaceAll("\n", ";");
+            if(temp.contains(";")){
+                //temp = temp.replaceAll("\n", "");
+                String[] arr = temp.split("[^a-zA-Z;]+");
+                for ( String ss : arr) {
+                    if(ss.length() < 1){
+                        continue;
+                    }
+                    if(ss.length() > 1 && ss.contains(";")){
+                        String split1 = ss.substring(0, ss.length() - 1);
+                        temp = split1;
+                        //words.add(split1);
+                        String split2 = ";";
+                        //temp = split2;
+                        words.add(split2);
+                    }
+                    else{
+                        if(ss.equals("a")) continue;
+                        if(ss.equals("able")) continue;
+                        if(ss.equals("about")) continue;
+                        if(ss.equals("across")) continue;
+                        if(ss.equals("all")) continue;
+                        if(ss.equals("almost")) continue;
+                        if(ss.equals("also")) continue;
+                        if(ss.equals("am")) continue;
+                        if(ss.equals("among")) continue;
+                        if(ss.equals("an")) continue;
+                        if(ss.equals("and")) continue;
+                        if(ss.equals("any")) continue;
+                        if(ss.equals("are")) continue;
+                        if(ss.equals("as")) continue;
+                        if(ss.equals("at")) continue;
+                        if(ss.equals("be")) continue;
+                        if(ss.equals("because")) continue;
+                        if(ss.equals("been")) continue;
+                        if(ss.equals("but")) continue;
+                        if(ss.equals("by")) continue;
+                        if(ss.equals("can")) continue;
+                        if(ss.equals("cannot")) continue;
+                        if(ss.equals("could")) continue;
+                        if(ss.equals("dear")) continue;
+                        if(ss.equals("did")) continue;
+                        if(ss.equals("do")) continue;
+                        if(ss.equals("does")) continue;
+                        if(ss.equals("either")) continue;
+                        if(ss.equals("else")) continue;
+                        if(ss.equals("ever")) continue;
+                        if(ss.equals("every")) continue;
+                        if(ss.equals("for")) continue;
+                        if(ss.equals("from")) continue;
+                        if(ss.equals("get")) continue;
+                        if(ss.equals("got")) continue;
+                        if(ss.equals("had")) continue;
+                        if(ss.equals("has")) continue;
+                        if(ss.equals("have")) continue;
+                        if(ss.equals("he")) continue;
+                        if(ss.equals("her")) continue;
+                        if(ss.equals("hers")) continue;
+                        if(ss.equals("him")) continue;
+                        if(ss.equals("his")) continue;
+                        if(ss.equals("how")) continue;
+                        if(ss.equals("however")) continue;
+                        if(ss.equals("i")) continue;
+                        if(ss.equals("if")) continue;
+                        if(ss.equals("in")) continue;
+                        if(ss.equals("into")) continue;
+                        if(ss.equals("is")) continue;
+                        if(ss.equals("it")) continue;
+                        if(ss.equals("its")) continue;
+                        if(ss.equals("just")) continue;
+                        if(ss.equals("least")) continue;
+                        if(ss.equals("let")) continue;
+                        if(ss.equals("like")) continue;
+                        if(ss.equals("likely")) continue;
+                        if(ss.equals("may")) continue;
+                        if(ss.equals("me")) continue;
+                        if(ss.equals("might")) continue;
+                        if(ss.equals("most")) continue;
+                        if(ss.equals("must")) continue;
+                        if(ss.equals("my")) continue;
+                        if(ss.equals("neither")) continue;
+                        if(ss.equals("no")) continue;
+                        if(ss.equals("nor")) continue;
+                        if(ss.equals("not")) continue;
+                        if(ss.equals("of")) continue;
+                        if(ss.equals("[of")) continue;
+                        if(ss.equals("off")) continue;
+                        if(ss.equals("often")) continue;
+                        if(ss.equals("on")) continue;
+                        if(ss.equals("only")) continue;
+                        if(ss.equals("or")) continue;
+                        if(ss.equals("other")) continue;
+                        if(ss.equals("our")) continue;
+                        if(ss.equals("own")) continue;
+                        if(ss.equals("rather")) continue;
+                        if(ss.equals("said")) continue;
+                        if(ss.equals("say")) continue;
+                        if(ss.equals("says")) continue;
+                        if(ss.equals("she")) continue;
+                        if(ss.equals("should")) continue;
+                        if(ss.equals("since")) continue;
+                        if(ss.equals("so")) continue;
+                        if(ss.equals("some")) continue;
+                        if(ss.equals("than")) continue;
+                        if(ss.equals("that")) continue;
+                        if(ss.equals("the")) continue;
+                        if(ss.equals("their")) continue;
+                        if(ss.equals("them")) continue;
+                        if(ss.equals("then")) continue;
+                        if(ss.equals("there")) continue;
+                        if(ss.equals("these")) continue;
+                        if(ss.equals("they")) continue;
+                        if(ss.equals("this")) continue;
+                        if(ss.equals("tis")) continue;
+                        if(ss.equals("to")) continue;
+                        if(ss.equals("too")) continue;
+                        if(ss.equals("twas")) continue;
+                        if(ss.equals("us")) continue;
+                        if(ss.equals("wants")) continue;
+                        if(ss.equals("was")) continue;
+                        if(ss.equals("we")) continue;
+                        if(ss.equals("were")) continue;
+                        if(ss.equals("what")) continue;
+                        if(ss.equals("when")) continue;
+                        if(ss.equals("where")) continue;
+                        if(ss.equals("which")) continue;
+                        if(ss.equals("while")) continue;
+                        if(ss.equals("who")) continue;
+                        if(ss.equals("whom")) continue;
+                        if(ss.equals("why")) continue;
+                        if(ss.equals("will")) continue;
+                        if(ss.equals("with")) continue;
+                        if(ss.equals("would")) continue;
+                        if(ss.equals("yet")) continue;
+                        if(ss.equals("you")) continue;
+                        if(ss.equals("your")) continue;
+                        if(ss.length() < 1) continue;
+                        if(ss.contains(";") && ss.length() > 1) continue;
+                        words.add(ss);
+                    }
+                }
+            }
             if(temp.equals("a")) continue;
             if(temp.equals("able")) continue;
             if(temp.equals("about")) continue;
@@ -538,25 +679,6 @@ class Stemmer
             if(temp.equals("you")) continue;
             if(temp.equals("your")) continue;
             if(temp.length() < 1) continue;
-
-            if(temp.contains(";")){
-                //temp = temp.replaceAll("\n", "");
-                String[] arr = temp.split("[^a-zA-Z;]+");
-                for ( String ss : arr) {
-                    if(ss.length() < 1){
-                        continue;
-                    }
-                    if(ss.length() > 1 && ss.contains(";")){
-                        String split1 = ss.substring(0, ss.length() - 1);
-                        words.add(split1);
-                        String split2 = ";";
-                        words.add(split2);
-                    }
-                    else{
-                        words.add(ss);
-                    }
-                }
-            }
             if(temp.contains(";") && temp.length() > 1) continue;
             words.add(temp);
         }
