@@ -428,9 +428,7 @@ class Stemmer
                     if(ss.length() > 1 && ss.contains(";")){
                         String split1 = ss.substring(0, ss.length() - 1);
                         temp = split1;
-                        //words.add(split1);
                         String split2 = ";";
-                        //temp = split2;
                         words.add(split2);
                     }
                     else{
@@ -682,9 +680,6 @@ class Stemmer
             if(temp.contains(";") && temp.length() > 1) continue;
             words.add(temp);
         }
-//        for(int i = 0; i < words.size(); i++){
-//            System.out.println(words.get(i));
-//        }
         stemWords(words);
     }
 
@@ -735,9 +730,10 @@ class Stemmer
         ArrayList<String> stemmed_15 = new ArrayList<String>();
         ArrayList<String> paragraph_16 = new ArrayList<String>();
         ArrayList<String> stemmed_16 = new ArrayList<String>();
+        ArrayList<String> allTXT = new ArrayList<String>();
+        ArrayList<String> stemmed_allTXT = new ArrayList<String>();
         int count = 1;
         int index = 0;
-
         for(int i = 0; i < 100_000; i++){
             if(words.get(i).contains(";")){
                 count++;
@@ -929,27 +925,49 @@ class Stemmer
             paragraph_16.add(words.get(i));
             stemmed_16.add(stemmedWords.get(i));
         }
-        combineStemmed(paragraph_1, stemmed_1, 1);
-        combineStemmed(paragraph_2, stemmed_2, 2);
-        combineStemmed(paragraph_3, stemmed_3, 3);
-        combineStemmed(paragraph_4, stemmed_4, 4);
-        combineStemmed(paragraph_5, stemmed_5, 5);
-        combineStemmed(paragraph_6, stemmed_6, 6);
-        combineStemmed(paragraph_7, stemmed_7, 7);
-        combineStemmed(paragraph_8, stemmed_8, 8);
-        combineStemmed(paragraph_9, stemmed_9, 9);
-        combineStemmed(paragraph_10, stemmed_10, 10);
-        combineStemmed(paragraph_11, stemmed_11, 11);
-        combineStemmed(paragraph_12, stemmed_12, 12);
-        combineStemmed(paragraph_13, stemmed_13, 13);
-        combineStemmed(paragraph_14, stemmed_14, 14);
-        combineStemmed(paragraph_15, stemmed_15, 15);
-        combineStemmed(paragraph_16, stemmed_16, 16);
+        for(int i = 0; i < words.size(); i++){
+            if(words.get(i).contains(";")) continue;
+            allTXT.add(words.get(i));
+            stemmed_allTXT.add(stemmedWords.get(i));
+        }
+
+        ArrayList<String> all = combineStemmed(allTXT, stemmed_allTXT, 0);
+        ArrayList<String> p1 = combineStemmed(paragraph_1, stemmed_1, 1);
+        ArrayList<String> p2 = combineStemmed(paragraph_2, stemmed_2, 2);
+        ArrayList<String> p3 = combineStemmed(paragraph_3, stemmed_3, 3);
+        ArrayList<String> p4 = combineStemmed(paragraph_4, stemmed_4, 4);
+        ArrayList<String> p5 = combineStemmed(paragraph_5, stemmed_5, 5);
+        ArrayList<String> p6 = combineStemmed(paragraph_6, stemmed_6, 6);
+        ArrayList<String> p7 = combineStemmed(paragraph_7, stemmed_7, 7);
+        ArrayList<String> p8 = combineStemmed(paragraph_8, stemmed_8, 8);
+        ArrayList<String> p9 = combineStemmed(paragraph_9, stemmed_9, 9);
+        ArrayList<String> p10 = combineStemmed(paragraph_10, stemmed_10, 10);
+        ArrayList<String> p11 = combineStemmed(paragraph_11, stemmed_11, 11);
+        ArrayList<String> p12 = combineStemmed(paragraph_12, stemmed_12, 12);
+        ArrayList<String> p13 = combineStemmed(paragraph_13, stemmed_13, 13);
+        ArrayList<String> p14 = combineStemmed(paragraph_14, stemmed_14, 14);
+        ArrayList<String> p15 = combineStemmed(paragraph_15, stemmed_15, 15);
+        ArrayList<String> p16 = combineStemmed(paragraph_16, stemmed_16, 16);
+        featureVector(all, p1);
+        featureVector(all, p2);
+        featureVector(all, p3);
+        featureVector(all, p4);
+        featureVector(all, p5);
+        featureVector(all, p6);
+        featureVector(all, p7);
+        featureVector(all, p8);
+        featureVector(all, p9);
+        featureVector(all, p10);
+        featureVector(all, p11);
+        featureVector(all, p12);
+        featureVector(all, p13);
+        featureVector(all, p14);
+        featureVector(all, p15);
+        featureVector(all, p16);
     }
 
-    public static void combineStemmed(ArrayList<String> paragraph, ArrayList<String> stemmed, int num){
-        System.out.print("Paragraph " + num + ": ");
-        ArrayList<Integer> frequency = new ArrayList<Integer>();
+    public static ArrayList<String> combineStemmed(ArrayList<String> paragraph, ArrayList<String> stemmed, int num){
+        //System.out.print("Paragraph " + num + ": ");
 
         for(int i = 0; i < stemmed.size(); i++){
             String word1 = stemmed.get(i);
@@ -967,12 +985,49 @@ class Stemmer
                 }
                 else continue;
             }
-            frequency.add(count);
+            paragraph.add(Integer.toString(count));
         }
-        for(int i = 0; i < stemmed.size(); i++){
-            System.out.print(paragraph.get(i) + " (" + frequency.get(i) + ") ");
-        }
-        System.out.println("");
-        System.out.println("");
+
+//        for(int i = 0; i < paragraph.size(); i++){
+//            System.out.print(paragraph.get(i) + " "); // (" + frequency.get(i) + ")
+//        }
+//        System.out.println("");
+//        System.out.println("");
+        return paragraph;
     }
+
+    public static ArrayList<String> featureVector(ArrayList<String> allText, ArrayList<String> p) {
+        ArrayList<String> kSet = new ArrayList<String>();
+        ArrayList<String> pSet = new ArrayList<String>();
+        ArrayList<String> frequency = new ArrayList<String>();
+        ArrayList<String> vector = new ArrayList<String>();
+
+        for (int i = 0; i < allText.size() / 2; i++) {
+            kSet.add(allText.get(i));
+        }
+        for( int i = 0; i < kSet.size(); i++){
+            vector.add("0");
+        }
+        for (int i = 0; i < p.size() / 2; i++) {
+            pSet.add(p.get(i));
+        }
+        for (int i = ((p.size() / 2)); i < p.size(); i++){
+            frequency.add(p.get(i));
+        }
+        for(int i = 0; i < pSet.size(); i++){
+            for(int j = 0; j < kSet.size(); j++){
+                if(pSet.get(i).equals(kSet.get(j))) {
+                    vector.set(j, frequency.get(i));
+                    break;
+                }
+            }
+        }
+        for(int i = 0; i < vector.size(); i++){
+            System.out.print(vector.get(i) + ", ");
+        }
+        System.out.println("");
+        System.out.println("");
+        return vector;
+    }
+
 }
