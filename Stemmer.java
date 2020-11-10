@@ -1,8 +1,6 @@
 /*
    Assignment 4
-
    Creators: Kylan Thomson, John Kelley, Robert Grey
-
    Description: This program creates the feature vector by applying
    the following text mining techniques to a set of paragraphs.
         A. Tokenize paragraphs
@@ -14,41 +12,27 @@
         G. Combine stemmed words.
         H. Extract most frequent words.
    Then this program implements a clustering algorithm to group similar paragraphs together.
-
  */
 
 /*
-
    Porter stemmer in Java. The original paper is in
-
        Porter, 1980, An algorithm for suffix stripping, Program, Vol. 14,
        no. 3, pp 130-137,
-
    See also http://www.tartarus.org/~martin/PorterStemmer
-
    History:
-
    Release 1
-
    Bug 1 (reported by Gonzalo Parra 16/10/99) fixed as marked below.
    The words 'aed', 'eed', 'oed' leave k at 'a' for step 3, and b[k-1]
    is then out outside the bounds of b.
-
    Release 2
-
    Similarly,
-
    Bug 2 (reported by Steve Dyrdahl 22/2/00) fixed as marked below.
    'ion' by itself leaves j = -1 in the test for 'ion' in step 5, and
    b[j] is then outside the bounds of b.
-
    Release 3
-
    Considerably revised 4/9/00 in the light of many helpful suggestions
    from Brian Goetz of Quiotix Corporation (brian@quiotix.com).
-
    Release 4
-
 */
 
 //import java.io.*;
@@ -151,7 +135,6 @@ class Stemmer
    /* m() measures the number of consonant sequences between 0 and j. if c is
       a consonant sequence and v a vowel sequence, and <..> indicates arbitrary
       presence,
-
          <c><v>       gives 0
          <c>vc<v>     gives 1
          <c>vcvc<v>   gives 2
@@ -202,10 +185,8 @@ class Stemmer
    /* cvc(i) is true <=> i-2,i-1,i has the form consonant - vowel - consonant
       and also if the second c is not w,x or y. this is used when trying to
       restore an e at the end of a short word. e.g.
-
          cav(e), lov(e), hop(e), crim(e), but
          snow, box, tray.
-
    */
 
     private final boolean cvc(int i)
@@ -240,25 +221,20 @@ class Stemmer
     private final void r(String s) { if (m() > 0) setto(s); }
 
    /* step1() gets rid of plurals and -ed or -ing. e.g.
-
           caresses  ->  caress
           ponies    ->  poni
           ties      ->  ti
           caress    ->  caress
           cats      ->  cat
-
           feed      ->  feed
           agreed    ->  agree
           disabled  ->  disable
-
           matting   ->  mat
           mating    ->  mate
           meeting   ->  meet
           milling   ->  mill
           messing   ->  mess
-
           meetings  ->  meet
-
    */
 
     private final void step1()
@@ -413,7 +389,9 @@ class Stemmer
 
         for(int i = 0; i < text.size(); i++){
             String temp = text.get(i).toLowerCase();
+            // removing punctuation (except for ";" because this is used as a delimiter for paragraphs)
             temp = temp.replaceAll("[?,\".{}!@#$%^&*()|:'`~â€“<>]","");
+            // removing numbers
             temp = temp.replaceAll("[0-9]", "");
             temp = temp.replaceAll("]", "");
             //temp = temp.replaceAll("\n", ";");
@@ -430,6 +408,7 @@ class Stemmer
                         String split2 = ";";
                         words.add(split2);
                     }
+                    // removing stop words
                     else{
                         if(ss.equals("a")) continue;
                         if(ss.equals("able")) continue;
@@ -682,6 +661,10 @@ class Stemmer
         stemWords(words);
     }
 
+    /**
+     * breaks words down to their root word
+     * @param words
+     */
     public static void stemWords(ArrayList<String> words){
         ArrayList<String> stemmedWords = new ArrayList<String>();
         for(int i = 0; i < words.size(); i++){
@@ -733,6 +716,10 @@ class Stemmer
         ArrayList<String> stemmed_allTXT = new ArrayList<String>();
         int count = 1;
         int index = 0;
+
+        /**
+         * making arraylists for each paragraph using ";" as a delimiter
+         */
         for(int i = 0; i < 100_000; i++){
             if(words.get(i).contains(";")){
                 count++;
@@ -971,9 +958,14 @@ class Stemmer
         writeCSV(featureVector(all, p16, "Paragraph 16"));
     }
 
+    /**
+     * Combines words that have common root words
+     * @param paragraph
+     * @param stemmed
+     * @param num
+     * @return
+     */
     public static ArrayList<String> combineStemmed(ArrayList<String> paragraph, ArrayList<String> stemmed, int num){
-        //System.out.print("Paragraph " + num + ": ");
-
         for(int i = 0; i < stemmed.size(); i++){
             String word1 = stemmed.get(i);
             int count = 1;
@@ -992,15 +984,19 @@ class Stemmer
             }
             paragraph.add(Integer.toString(count));
         }
-
-//        for(int i = 0; i < paragraph.size(); i++){
-//            System.out.print(paragraph.get(i) + " "); // (" + frequency.get(i) + ")
-//        }
-//        System.out.println("");
-//        System.out.println("");
         return paragraph;
     }
 
+    /**
+     *  feature vector counts the number of creates a vector that contains
+     *  the frequency in which a word in the entire text shows up
+     *  in each paragraph
+     *
+     * @param allText
+     * @param p
+     * @param c1
+     * @return
+     */
     public static ArrayList<String> featureVector(ArrayList<String> allText, ArrayList<String> p, String c1) {
         ArrayList<String> kSet = new ArrayList<String>();
         ArrayList<String> pSet = new ArrayList<String>();
@@ -1035,6 +1031,13 @@ class Stemmer
         System.out.println("");
         return vector;
     }
+
+    /**
+     *  Writes to csv file
+     *  First row is keyWord set for the entire document
+     *  all proceeding rows are frequency vectors for each paragraph
+     * @param row
+     */
     public static void writeCSV(ArrayList<String> row){
         String filePath = "TDM.csv";
         try{
@@ -1053,5 +1056,4 @@ class Stemmer
             System.out.println("Failed to save file");
         }
     }
-
 }
