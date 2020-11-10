@@ -14,5 +14,5 @@ This program creates the feature vector by applying
    Then this program implements a clustering algorithm to group similar paragraphs together.
    
    Zoom: 
-   https://us02web.zoom.us/j/82907357614?pwd=ZkxLQ0VKcXFhTVhnclJIc3NLczV5UT09
-   Password: 1bMdqW
+   https://us02web.zoom.us/j/84150722224?pwd=aDkzSnpmSHhmN2Q1bEFkUk1RNU5rZz09
+   Password: n27fDh
