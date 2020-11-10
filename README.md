@@ -12,3 +12,7 @@ This program creates the feature vector by applying
         G. Combine stemmed words.
         H. Extract most frequent words.
    Then this program implements a clustering algorithm to group similar paragraphs together.
+   
+   Zoom: 
+   https://us02web.zoom.us/j/83960748269?pwd=UU96QWRjU01MaFlaWitsYWFZZHluQT09
+   Passcode: X7gSOE
